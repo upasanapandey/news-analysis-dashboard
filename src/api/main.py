@@ -7,7 +7,7 @@ import feedparser
 import numpy as np
 
 app = FastAPI()
-MODEL_PATH = "models/classifier"
+MODEL_PATH = "upasanapandey/news-classifier"
 
 tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH)
 model = AutoModelForSequenceClassification.from_pretrained(MODEL_PATH)
