@@ -11,7 +11,7 @@
 
 ### 🧠 AI-powered News Classification, Summarization & Entity Recognition Dashboard
 
-This project provides an **interactive dashboard** and **REST API** for analyzing news articles using **state-of-the-art NLP models**.It classifies articles into categories, generates summaries, and extracts key named entities — all wrapped in a clean, modern UI.
+This project provides an **interactive dashboard** and **REST API** for analyzing news articles using **state-of-the-art NLP models**. It classifies articles into categories, generates summaries, and extracts key named entities — all wrapped in a clean, modern UI.
 
 ---
 
