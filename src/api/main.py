@@ -22,7 +22,10 @@ labels = ["World", "Sports", "Business", "Sci/Tech"]  # AG News mapping
 class Query(BaseModel):
     text: str
 
-
+@app.get("/")
+def read_root():
+    return {"status": "ok", "message": "News Recommendation API running!"}
+    
 @app.post("/predict")
 def predict(q: Query):
     inputs = tokenizer(q.text, return_tensors="pt", truncation=True, padding=True, max_length=512)
