@@ -4,6 +4,7 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipe
 import torch
 import uvicorn
 import feedparser
+import numpy as np
 
 app = FastAPI()
 MODEL_PATH = "models/classifier"
@@ -41,20 +42,42 @@ def predict(q: Query):
 
 @app.post("/analyze")
 def analyze(q: Query):
-    pred = predict(q)  # reuse logic
-    summary = summarizer(q.text, max_length=60, min_length=20, do_sample=False)[0]['summary_text']
-    entities = ner(q.text)
+    pred = predict(q)
 
-    # Convert entity scores to float
-    for e in entities:
-        if "score" in e:
-            e["score"] = float(e["score"])
+    # --- summarization with error handling
+    try:
+        text = q.text[:1000]
+        summary_result = summarizer(text, max_length=120, min_length=30, do_sample=False)
+        summary = summary_result[0]["summary_text"] if summary_result else "No summary generated."
+    except Exception as e:
+        summary = f"⚠️ Summarization failed: {str(e)}"
 
-    return {
+    # --- NER with cleaning and deduplication
+    try:
+        entities_raw = ner(q.text)
+    except Exception as e:
+        entities_raw = [{"entity_group": "Error", "word": str(e)}]
+
+    seen = set()
+    entities = []
+    for ent in entities_raw:
+        word = ent.get("word", "").strip()
+        key = (ent.get("entity_group"), word.lower())
+        if word and key not in seen:
+            seen.add(key)
+            # cast floats to Python floats
+            cleaned = {k: (float(v) if isinstance(v, (np.float32, np.float64)) else v) for k, v in ent.items()}
+            entities.append(cleaned)
+
+    # --- ensure everything is JSON-safe
+    response = {
         "prediction": pred,
         "summary": summary,
-        "entities": entities
+        "entities": entities,
     }
+
+    return response
+
 @app.get("/fetch_sample")
 def fetch_sample():
     feeds = {
