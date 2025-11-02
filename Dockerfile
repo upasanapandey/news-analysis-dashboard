@@ -4,7 +4,7 @@ COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 # copy your trained model into the image
-COPY models/classifier/ ./models/classifier/
+#COPY models/classifier/ ./models/classifier/
 
 COPY src/ ./src/
 ENV PYTHONUNBUFFERED=1

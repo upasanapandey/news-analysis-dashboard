@@ -1,9 +1,11 @@
 from transformers import pipeline
 
+model = "upasanapandey/news-classifier"
+
 clf = pipeline(
     "text-classification",
-    model="models/classifier",
-    tokenizer="models/classifier"
+    model=model,
+    tokenizer=model
 )
 
 label_names = ["World", "Sports", "Business", "Sci/Tech"]
