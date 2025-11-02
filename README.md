@@ -1,3 +1,14 @@
+---
+title: News Recommendation API
+emoji: 📰
+colorFrom: blue
+colorTo: green
+sdk: docker
+app_port: 8000
+pinned: false
+license: mit
+---
+
 # 📰 News Analysis Dashboard
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue)
