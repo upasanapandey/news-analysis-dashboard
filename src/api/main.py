@@ -8,16 +8,14 @@ import numpy as np
 
 app = FastAPI()
 MODEL_PATH = "upasanapandey/news-classifier"
-SUMMARIZER_MODEL = "sshleifer/distilbart-cnn-12-6"   
-NER_MODEL = "dslim/bert-base-NER"                    
 
 tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH)
 model = AutoModelForSequenceClassification.from_pretrained(MODEL_PATH)
 model.eval()
 
 # Pipelines
-summarizer = pipeline("summarization", model=SUMMARIZER_MODEL)
-ner = pipeline("ner", model=NER_MODEL, grouped_entities=True)  
+summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
+ner = pipeline("ner", grouped_entities=True)  # uses default model
 
 labels = ["World", "Sports", "Business", "Sci/Tech"]  # AG News mapping
 
@@ -27,7 +25,7 @@ class Query(BaseModel):
 @app.get("/")
 def read_root():
     return {"status": "ok", "message": "News Recommendation API running!"}
-
+    
 @app.post("/predict")
 def predict(q: Query):
     inputs = tokenizer(q.text, return_tensors="pt", truncation=True, padding=True, max_length=512)

@@ -118,7 +118,7 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-API_URL = st.secrets.get("API_URL", "http://localhost:8000") if hasattr(st, "secrets") else "http://localhost:8000"
+API_URL = st.secrets.get("API_URL", "https://huggingface.co/spaces/upasanapandey/news-recommendation-api") if hasattr(st, "secrets") else "https://huggingface.co/spaces/upasanapandey/news-recommendation-api"
 
 # --------------------
 # Helper: load logo safely
