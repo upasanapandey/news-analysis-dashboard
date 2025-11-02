@@ -1,0 +1,18 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual environments
+.venv/
+venv/
+
+# Streamlit config
+.streamlit/
+
+# Model artifacts
+models/
+*.safetensors
+
+# Other
+.env
+.DS_Store
