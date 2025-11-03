@@ -50,8 +50,8 @@ def analyze(q: Query):
 
     # --- summarization with error handling
     try:
-        text = q.text.strip()
-        summary_result = summarizer(text, max_length=120, min_length=30, do_sample=False)
+        text = clean_html(q.text).strip()[:2500]
+        summary_result = summarizer(text, max_length=150, min_length=100, do_sample=False)
         summary = summary_result[0]["summary_text"] if summary_result else "No summary generated."
     except Exception as e:
         summary = f"⚠️ Summarization failed: {str(e)}"
