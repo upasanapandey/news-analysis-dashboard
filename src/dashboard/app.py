@@ -159,7 +159,6 @@ st.sidebar.markdown("""
                 ✓ Text Classification<br>
                 ✓ Auto Summarization<br>
                 ✓ Named Entity Recognition<br>
-                ✓ Sentiment Analysis
             </div>
         </div>
     </div>
