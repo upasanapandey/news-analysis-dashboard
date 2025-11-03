@@ -5,7 +5,7 @@ import torch
 import uvicorn
 import feedparser
 import numpy as np
-from clean_text import clean_html
+from src.api.clean_text import clean_html
 
 app = FastAPI()
 MODEL_PATH = "upasanapandey/news-classifier"
