@@ -5,6 +5,7 @@ import torch
 import uvicorn
 import feedparser
 import numpy as np
+from clean_text import clean_html
 
 app = FastAPI()
 MODEL_PATH = "upasanapandey/news-classifier"
@@ -49,7 +50,7 @@ def analyze(q: Query):
 
     # --- summarization with error handling
     try:
-        text = q.text[:1000]
+        text = q.text.strip()
         summary_result = summarizer(text, max_length=120, min_length=30, do_sample=False)
         summary = summary_result[0]["summary_text"] if summary_result else "No summary generated."
     except Exception as e:
@@ -96,8 +97,8 @@ def fetch_sample():
             articles.append({
                 "source": source,
                 "title": entry.title,
-                "summary": getattr(entry, "summary", "")[:300],
-                "text": getattr(entry, "description", "")[:1000],
+                "summary": clean_html(getattr(entry, "summary", "")),
+                "text": clean_html(getattr(entry, "description", "")),
                 "link": entry.link
             })
     return articles
